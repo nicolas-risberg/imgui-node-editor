@@ -227,9 +227,9 @@ struct Style
     Style()
     {
         NodePadding              = ImVec4(8, 8, 8, 8);
-        NodeRounding             = 12.0f;
+        NodeRounding             = 2.5f;
         NodeBorderWidth          = 1.5f;
-        HoveredNodeBorderWidth   = 3.5f;
+        HoveredNodeBorderWidth   = 2.5f;
         HoverNodeBorderOffset    = 0.0f;
         SelectedNodeBorderWidth  = 3.5f;
         SelectedNodeBorderOffset = 0.0f;
@@ -242,7 +242,7 @@ struct Style
         FlowMarkerDistance       = 30.0f;
         FlowSpeed                = 150.0f;
         FlowDuration             = 2.0f;
-        PivotAlignment           = ImVec2(0.5f, 0.5f);
+        PivotAlignment           = ImVec2(0.0f, 0.5f);
         PivotSize                = ImVec2(0.0f, 0.0f);
         PivotScale               = ImVec2(1, 1);
 #if IMGUI_VERSION_NUM > 18101
@@ -261,7 +261,7 @@ struct Style
         Colors[StyleColor_Bg]                 = ImColor( 60,  60,  70, 200);
         Colors[StyleColor_Grid]               = ImColor(120, 120, 120,  40);
         Colors[StyleColor_NodeBg]             = ImColor( 32,  32,  32, 200);
-        Colors[StyleColor_NodeBorder]         = ImColor(255, 255, 255,  96);
+        Colors[StyleColor_NodeBorder]         = ImColor( 74,  74,  74,  96);
         Colors[StyleColor_HovNodeBorder]      = ImColor( 50, 176, 255, 255);
         Colors[StyleColor_SelNodeBorder]      = ImColor(255, 176,  50, 255);
         Colors[StyleColor_NodeSelRect]        = ImColor(  5, 130, 255,  64);
