@@ -558,7 +558,6 @@ void ed::Pin::Draw(ImDrawList* drawList, DrawFlags flags)
     if (flags & Hovered)
     {
         drawList->ChannelsSetCurrent(m_Node->m_Channel + c_NodePinChannel);
-
         drawList->AddRectFilled(m_Bounds.Min, m_Bounds.Max,
             m_Color, m_Rounding, m_Corners);
 
@@ -4857,7 +4856,11 @@ ed::CreateItemAction::Result ed::CreateItemAction::QueryLink(PinId* startId, Pin
     IM_ASSERT(m_InActive);
 
     if (!m_InActive || m_CurrentStage == None || m_ItemType != Link)
+    {
+        auto linkStartId = m_LinkStart->m_ID;
+        *startId = m_LinkStart->m_ID;
         return Indeterminate;
+    }
 
     auto linkStartId = m_LinkStart->m_ID;
     auto linkEndId   = m_LinkEnd->m_ID;
