@@ -558,7 +558,6 @@ void ed::Pin::Draw(ImDrawList* drawList, DrawFlags flags)
     if (flags & Hovered)
     {
         drawList->ChannelsSetCurrent(m_Node->m_Channel + c_NodePinChannel);
-
         drawList->AddRectFilled(m_Bounds.Min, m_Bounds.Max,
             m_Color, m_Rounding, m_Corners);
 
@@ -4391,15 +4390,15 @@ ed::EditorAction::AcceptResult ed::ShortcutAction::Accept(const Control& control
     Action candidateAction = None;
 
     auto& io = ImGui::GetIO();
-    if (io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_X)))
+    if (io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_X))
         candidateAction = Cut;
-    if (io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_C)))
+    if (io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_C))
         candidateAction = Copy;
-    if (io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_V)))
+    if (io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_V))
         candidateAction = Paste;
     if (io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(GetKeyIndexForD()))
         candidateAction = Duplicate;
-    if (!io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Space)))
+    if (!io.KeyCtrl && !io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_Space))
         candidateAction = CreateNode;
 
     if (candidateAction != None)
@@ -4857,7 +4856,11 @@ ed::CreateItemAction::Result ed::CreateItemAction::QueryLink(PinId* startId, Pin
     IM_ASSERT(m_InActive);
 
     if (!m_InActive || m_CurrentStage == None || m_ItemType != Link)
+    {
+        auto linkStartId = m_LinkStart->m_ID;
+        *startId = m_LinkStart->m_ID;
         return Indeterminate;
+    }
 
     auto linkStartId = m_LinkStart->m_ID;
     auto linkEndId   = m_LinkEnd->m_ID;
@@ -4953,7 +4956,7 @@ ed::EditorAction::AcceptResult ed::DeleteItemsAction::Accept(const Control& cont
         return False;
 
     auto& io = ImGui::GetIO();
-    if (Editor->CanAcceptUserInput() && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Delete)) && Editor->AreShortcutsEnabled())
+    if (Editor->CanAcceptUserInput() && ImGui::IsKeyPressed(ImGuiKey_Delete) && Editor->AreShortcutsEnabled())
     {
         auto& selection = Editor->GetSelectedObjects();
         if (!selection.empty())

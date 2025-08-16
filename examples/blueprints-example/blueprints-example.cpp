@@ -84,10 +84,10 @@ struct Pin
     ::Node*     Node;
     std::string Name;
     PinType     Type;
-    PinKind     Kind;
+    PinKind     Direction;
 
     Pin(int id, const char* name, PinType type):
-        ID(id), Node(nullptr), Name(name), Type(type), Kind(PinKind::Input)
+        ID(id), Node(nullptr), Name(name), Type(type), Direction(PinKind::Input)
     {
     }
 };
@@ -241,7 +241,7 @@ struct Example:
 
     bool CanCreateLink(Pin* a, Pin* b)
     {
-        if (!a || !b || a == b || a->Kind == b->Kind || a->Type != b->Type || a->Node == b->Node)
+        if (!a || !b || a == b || a->Direction == b->Direction || a->Type != b->Type || a->Node == b->Node)
             return false;
 
         return true;
@@ -268,13 +268,13 @@ struct Example:
         for (auto& input : node->Inputs)
         {
             input.Node = node;
-            input.Kind = PinKind::Input;
+            input.Direction = PinKind::Input;
         }
 
         for (auto& output : node->Outputs)
         {
             output.Node = node;
-            output.Kind = PinKind::Output;
+            output.Direction = PinKind::Output;
         }
     }
 
@@ -1487,7 +1487,7 @@ struct Example:
 
                         newLinkPin = startPin ? startPin : endPin;
 
-                        if (startPin->Kind == PinKind::Input)
+                        if (startPin->Direction == PinKind::Input)
                         {
                             std::swap(startPin, endPin);
                             std::swap(startPinId, endPinId);
@@ -1499,7 +1499,7 @@ struct Example:
                             {
                                 ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
                             }
-                            else if (endPin->Kind == startPin->Kind)
+                            else if (endPin->Direction == startPin->Direction)
                             {
                                 showLabel("x Incompatible Pin Kind", ImColor(45, 32, 32, 180));
                                 ed::RejectNewItem(ImColor(255, 0, 0), 2.0f);
@@ -1714,14 +1714,14 @@ struct Example:
 
                 if (auto startPin = newNodeLinkPin)
                 {
-                    auto& pins = startPin->Kind == PinKind::Input ? node->Outputs : node->Inputs;
+                    auto& pins = startPin->Direction == PinKind::Input ? node->Outputs : node->Inputs;
 
                     for (auto& pin : pins)
                     {
                         if (CanCreateLink(startPin, &pin))
                         {
                             auto endPin = &pin;
-                            if (startPin->Kind == PinKind::Input)
+                            if (startPin->Direction == PinKind::Input)
                                 std::swap(startPin, endPin);
 
                             m_Links.emplace_back(Link(GetNextId(), startPin->ID, endPin->ID));
